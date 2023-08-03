@@ -26,5 +26,15 @@ RSpec.describe "Bachlorette Show Page", type: :feature do
 
     click_link("Contestants")
     expect(current_path).to eq(bachelorette_contestants_path(@bachelorette_1))
+    expect(page).to have_content("#{@bachelorette_1.name}'s Contestants")
+
+    within("#contestant") do
+      expect(page).to have_content(@contestant_1.name)
+      expect(page).to have_content(@contestant_2.name)
+      expect(page).to have_content(@contestant_3.name)
+
+      expect(page).to_not have_content(@contestant_4.name)
+      expect(page).to_not have_content(@contestant_5.name)
+    end
   end
 end
