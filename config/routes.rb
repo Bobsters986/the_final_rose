@@ -5,4 +5,5 @@ Rails.application.routes.draw do
     resources :contestants, only: [:index]
   end
 
+  resources :contestants, only: [:show]
 end
