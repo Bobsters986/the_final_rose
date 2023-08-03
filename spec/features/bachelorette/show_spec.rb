@@ -20,5 +20,11 @@ RSpec.describe "Bachlorette Show Page", type: :feature do
     expect(page).to have_content("Season #{@bachelorette_1.season_number} - #{@bachelorette_1.description}")
   end
 
-  
+  it "has a link to the bachelorette's contestants" do
+    visit bachelorette_path(@bachelorette_1)
+    expect(page).to have_link("Contestants")
+
+    click_link("Contestants")
+    expect(current_path).to eq(bachelorette_contestants_path(@bachelorette_1))
+  end
 end
