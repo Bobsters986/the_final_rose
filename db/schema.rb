@@ -23,12 +23,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_03_170000) do
   end
 
   create_table "contestant_outings", force: :cascade do |t|
-    t.bigint "contestants_id", null: false
-    t.bigint "outings_id", null: false
+    t.bigint "contestant_id", null: false
+    t.bigint "outing_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["contestants_id"], name: "index_contestant_outings_on_contestants_id"
-    t.index ["outings_id"], name: "index_contestant_outings_on_outings_id"
+    t.index ["contestant_id"], name: "index_contestant_outings_on_contestant_id"
+    t.index ["outing_id"], name: "index_contestant_outings_on_outing_id"
   end
 
   create_table "contestants", force: :cascade do |t|
@@ -49,7 +49,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_03_170000) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "contestant_outings", "contestants", column: "contestants_id"
-  add_foreign_key "contestant_outings", "outings", column: "outings_id"
+  add_foreign_key "contestant_outings", "contestants"
+  add_foreign_key "contestant_outings", "outings"
   add_foreign_key "contestants", "bachelorettes"
 end
