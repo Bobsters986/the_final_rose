@@ -1,4 +1,4 @@
 class ContestantOuting < ApplicationRecord
-  belongs_to :contestants
-  belongs_to :outings
+  belongs_to :contestant
+  belongs_to :outing
 end
