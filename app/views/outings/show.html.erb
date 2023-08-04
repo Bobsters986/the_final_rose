@@ -4,8 +4,8 @@
 <p><strong>Date:</strong> <%= @outing.date.strftime("%m/%d/%Y") %></p>
 <p><strong>Count of Contestants:</strong> <%= @outing.contestant_count %></p>
 <p><strong>Contestants: </strong></p> 
-<ul>
-  <% @outing.contestant_names.each do |name| %>
-    <li><%= name %></li>
+<ul id="contestants">
+  <% @outing.contestants.each do |contestant| %>
+    <li><%= contestant.name %> - <%= button_to "Remove", "/contestants/#{contestant.id}/outings/#{@outing.id}", method: :delete %></li>
   <% end %>
 </ul>
