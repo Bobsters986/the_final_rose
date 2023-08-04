@@ -35,4 +35,14 @@ RSpec.describe "Bachlorette's Contestants Index Page", type: :feature do
       expect(page).to_not have_link(@contestant_5.name)
     end
   end
+
+  it "has a link to each contestant's show page" do
+    visit bachelorette_contestants_path(@bachelorette_1)
+
+    within("ul#contestants") do
+      click_link(@contestant_1.name)
+    end
+
+    expect(current_path).to eq(contestant_path(@contestant_1))
+  end
 end
