@@ -1,11 +1,6 @@
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe Outing, type: :model do
-  describe "relationships" do
-    it {should have_many :contestant_outings}
-    it {should have_many(:contestants).through(:contestant_outings)}
-  end
-
+RSpec.describe "Outing Show Page", type: :feature do
   let!(:bachelorette_1) { Bachelorette.create!(name: "Hannah Brown", season_number: 15, description: "The most dramatic season yet!") }
   let!(:bachelorette_2) { Bachelorette.create!(name: "Rachel Lindsay", season_number: 13, description: "Even more most dramatic season yet!") }
 
@@ -29,28 +24,37 @@ RSpec.describe Outing, type: :model do
   let!(:contestant_outing_6) { ContestantOuting.create!(contestant_id: contestant_2.id, outing_id: outing_4.id) }
 
   let!(:contestant_outing_7) { ContestantOuting.create!(contestant_id: contestant_3.id, outing_id: outing_1.id) }
-  let!(:contestant_outing_8) { ContestantOuting.create!(contestant_id: contestant_3.id, outing_id: outing_2.id) }
-  let!(:contestant_outing_9) { ContestantOuting.create!(contestant_id: contestant_3.id, outing_id: outing_3.id) }
+  let!(:contestant_outing_8) { ContestantOuting.create!(contestant_id: contestant_3.id, outing_id: outing_3.id) }
 
-  let!(:contestant_outing_10) { ContestantOuting.create!(contestant_id: contestant_4.id, outing_id: outing_1.id) }
-  let!(:contestant_outing_11) { ContestantOuting.create!(contestant_id: contestant_4.id, outing_id: outing_4.id) }
+  let!(:contestant_outing_9) { ContestantOuting.create!(contestant_id: contestant_4.id, outing_id: outing_1.id) }
+  let!(:contestant_outing_10) { ContestantOuting.create!(contestant_id: contestant_4.id, outing_id: outing_4.id) }
 
-  describe "instance methods" do
-    it "#contestant_count" do
-      expect(outing_1.contestant_count).to eq(4)
-      expect(outing_2.contestant_count).to eq(3)
-      expect(outing_3.contestant_count).to eq(2)
-      expect(outing_4.contestant_count).to eq(2)
+  it "can show the outing's name, location, and date" do
+    visit outing_path(outing_1)
 
-      ContestantOuting.create!(contestant_id: contestant_5.id, outing_id: outing_4.id)
-      expect(outing_4.contestant_count).to eq(3)
-    end
+    expect(page).to have_content(outing_1.name)
+    expect(page).to have_content("Location: #{outing_1.location}")
+    expect(page).to have_content("Date: #{outing_1.date.strftime("%m/%d/%Y")}")
 
-    it "#contestant_names" do
-      expect(outing_1.contestant_names).to eq([contestant_1.name, contestant_2.name, contestant_3.name, contestant_4.name])
-      expect(outing_2.contestant_names).to eq([contestant_1.name, contestant_2.name, contestant_3.name])
-      expect(outing_3.contestant_names).to eq([contestant_1.name, contestant_3.name])
-      expect(outing_4.contestant_names).to eq([contestant_2.name, contestant_4.name])
-    end
+    expect(page).to_not have_content(outing_2.name)
+    expect(page).to_not have_content(outing_3.name)
+    expect(page).to_not have_content("Location: #{outing_2.location}")
+    expect(page).to_not have_content("Date: #{outing_3.date.strftime("%m/%d/%Y")}")
+  end
+
+  it "can show the count of contestants on the outing" do
+    visit outing_path(outing_1)
+
+    expect(page).to have_content("Count of Contestants: 4")
+  end
+
+  it "can show the contestant names on the outing" do
+    visit outing_path(outing_1)
+
+    expect(page).to have_content("Contestants:")
+    expect(page).to have_content(contestant_1.name)
+    expect(page).to have_content(contestant_2.name)
+    expect(page).to have_content(contestant_3.name)
+    expect(page).to have_content(contestant_4.name)
   end
 end
