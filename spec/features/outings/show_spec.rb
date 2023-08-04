@@ -52,9 +52,71 @@ RSpec.describe "Outing Show Page", type: :feature do
     visit outing_path(outing_1)
 
     expect(page).to have_content("Contestants:")
-    expect(page).to have_content(contestant_1.name)
+
+    within("ul#contestants") do
+      expect(page).to have_content(contestant_1.name)
+      expect(page).to have_content(contestant_2.name)
+      expect(page).to have_content(contestant_3.name)
+      expect(page).to have_content(contestant_4.name)
+    end
+  end
+
+  it "can remove a contestant from the outing" do
+    visit outing_path(outing_1)
+
+    expect(page).to have_content("Count of Contestants: 4")
+
+    within("ul#contestants") do
+      expect(page).to have_button("Remove")
+
+      click_button("Remove", match: :first)
+    end
+
+    expect(current_path).to eq(outing_path(outing_1))
+
+    expect(page).to_not have_content(contestant_1.name)
     expect(page).to have_content(contestant_2.name)
     expect(page).to have_content(contestant_3.name)
     expect(page).to have_content(contestant_4.name)
+    expect(page).to have_content("Count of Contestants: 3")
+
+
+    within("ul#contestants") do
+      click_button("Remove", match: :first)
+    end
+
+    expect(current_path).to eq(outing_path(outing_1))
+
+    expect(page).to_not have_content(contestant_1.name)
+    expect(page).to_not have_content(contestant_2.name)
+    expect(page).to have_content(contestant_3.name)
+    expect(page).to have_content(contestant_4.name)
+    expect(page).to have_content("Count of Contestants: 2")
+  end
+
+  it "when a contestant is removed from one outing, they are not removed from other outings" do
+    visit outing_path(outing_1)
+
+    within("ul#contestants") do
+      expect(page).to have_button("Remove")
+
+      click_button("Remove", match: :first)
+    end
+
+    expect(page).to_not have_content(contestant_1.name)
+
+    visit outing_path(outing_2)
+
+    within("ul#contestants") do
+      expect(page).to have_content(contestant_1.name)
+      expect(page).to have_button("Remove")
+    end
+
+    visit outing_path(outing_3)
+
+    within("ul#contestants") do
+      expect(page).to have_content(contestant_1.name)
+      expect(page).to have_button("Remove")
+    end
   end
 end
