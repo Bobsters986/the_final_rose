@@ -3,5 +3,5 @@
 
   <h2> Season <%= @bachelorette.season_number %> - <%= @bachelorette.description %></h2>
   <%= link_to "Contestants", bachelorette_contestants_path(@bachelorette) %>
-  <p>Average Age of Contestants: <%= @bachelorette.average_contestant_age %></p>
+  <p><strong>Average Age of Contestants:</strong> <%= @bachelorette.average_contestant_age %></p>
 </center>
