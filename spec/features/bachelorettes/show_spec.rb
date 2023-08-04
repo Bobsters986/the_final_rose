@@ -31,6 +31,6 @@ RSpec.describe "Bachlorette Show Page", type: :feature do
   it "shows the average age of the bachelorette's contestants" do
     visit bachelorette_path(@bachelorette_1)
 
-    expect(page).to have_content("Average Contestant Age: 28.7")
+    expect(page).to have_content("Average Age of Contestants: 28.7")
   end
 end
