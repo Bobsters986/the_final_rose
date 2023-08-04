@@ -46,7 +46,7 @@ RSpec.describe Outing, type: :model do
       expect(outing_4.contestant_count).to eq(3)
     end
 
-    it "#contestant_names" do
+    it "#contestant_names" do #unnecessary method
       expect(outing_1.contestant_names).to eq([contestant_1.name, contestant_2.name, contestant_3.name, contestant_4.name])
       expect(outing_2.contestant_names).to eq([contestant_1.name, contestant_2.name, contestant_3.name])
       expect(outing_3.contestant_names).to eq([contestant_1.name, contestant_3.name])
