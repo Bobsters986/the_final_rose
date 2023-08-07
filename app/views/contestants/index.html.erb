@@ -8,3 +8,9 @@
     <br>
   <% end %>
 </ul>
+
+<p>These Contestants are from the following hometowns:
+  <% @bachelorette.unique_hometowns.each do |hometown| %>
+    <%= hometown %>,
+  <% end %>
+</p>
