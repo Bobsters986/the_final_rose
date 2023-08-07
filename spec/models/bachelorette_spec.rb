@@ -25,5 +25,14 @@ RSpec.describe Bachelorette, type: :model do
       expect(bachelorette_1.average_contestant_age).to eq(29.0)
       expect(bachelorette_2.average_contestant_age).to eq(27.7)
     end
+
+    it "#unique_hometowns" do
+      Contestant.create!(name: "John Doe", age: 30, hometown: "Chicago, IL", bachelorette_id: bachelorette_1.id)
+      Contestant.create!(name: "Jane Doe", age: 30, hometown: "San Antonio, TX", bachelorette_id: bachelorette_1.id)
+      Contestant.create!(name: "Jim Doe", age: 33, hometown: "Jupiter, FL", bachelorette_id: bachelorette_2.id)
+
+      expect(bachelorette_1.unique_hometowns).to eq(["Chicago, IL", "Knoxville, TN", "San Antonio, TX"])
+      expect(bachelorette_2.unique_hometowns).to eq(["Jupiter, FL", "Westlake Village, CA"])
+    end
   end
 end
